@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
-import EventStore from "../stores/event.store";
-import EventAction from "../actions/event.actions";
-import eventStore from '../stores/event.store';
+import EventStore from "../../stores/event.store";
+import EventAction from "../../actions/event.actions";
+import eventStore from '../../stores/event.store';
 
 export default class Incident extends Component {
 
@@ -42,34 +42,23 @@ export default class Incident extends Component {
     render () {
         const columns = [
             {
-                Header: "ID",
-                accessor: "id",
-                width: 80,
+                Header: "Even Name",
+                accessor: "eventName",
+                width: 300,
                 style: {
                     textAlign: "center"
                 }
             },
             {
                 Header: "Importance",
-                accessor: "userId",
+                accessor: "importance",
                 width: 50,
                 sortable: true
                 
             },
             {
-                Header: "Next Location",
-                accessor: "title",
-                width: 200,
-                filterable: true
-            },
-            {
-                Header: "Name",
-                accessor: "body",
-                filterable: true
-            },
-            {
-                Header: "Actors",
-                accessor: "body",
+                Header: "Description",
+                accessor: "description",
                 filterable: true
             },
             {
@@ -77,6 +66,18 @@ export default class Incident extends Component {
                 accessor: "body",
                 filterable: true
                 
+            },
+            {
+                Header: "Source URL",
+                accessor: "url",
+                width: 200,
+                filterable: true
+            },
+            {
+                Header: "Source Origin",
+                accessor: "origin",
+                width: 200,
+                filterable: true
             },
         ];
         const data = this.state.posts;

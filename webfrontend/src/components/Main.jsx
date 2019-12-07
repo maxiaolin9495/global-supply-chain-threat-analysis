@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Incident from './Incident';
+import Incident from '../views/incidents/Incident';
 import Home from '../views/home/home';
 import Location from './Location';
 

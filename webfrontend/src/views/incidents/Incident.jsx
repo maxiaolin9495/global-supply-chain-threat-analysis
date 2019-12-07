@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import IncidentEventTable from './IncidentEventTable';
-import IncidentEventDetails from './IncidentEventDetails';
-import EventSideBar from './eventSidebarComponent/EventSidebar';
+import IncidentEventTable from '../../components/incidentPageComponents/IncidentEventTable';
+import IncidentEventDetails from '../../components/incidentPageComponents/IncidentEventDetails';
+import EventSideBar from '../../components/eventSidebarComponent/EventSidebar';
 
 
 export default class Location extends Component {
