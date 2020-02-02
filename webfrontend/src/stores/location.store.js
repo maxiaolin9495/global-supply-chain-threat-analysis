@@ -7,7 +7,7 @@ let _store = {
     active_location: null
 };
 
-class EventStore extends EventEmitter {
+class LocationStore extends EventEmitter {
 
     constructor() {
         super();
@@ -39,6 +39,11 @@ class EventStore extends EventEmitter {
             case 'UPDATE_ACTIVE_LOCATION':
                 _store.active_location = action.value;
                 break;
+            case 'DELETE_LOCATION_ERROR':
+                _store.locations_error = action.value;
+                break;
+            case 'DELETE_LOCATION_SUCCESSFUL':
+                break;
         }
 
         this.emitChange(action.actionType);
@@ -68,4 +73,4 @@ class EventStore extends EventEmitter {
 
 }
 
-export default new EventStore()
+export default new LocationStore()

@@ -14,9 +14,9 @@ export default class AuthService {
     static async login(userLoginData){
         let loginRequest = await axios.post(AuthService.baseURL() + "/login", userLoginData);
         if (loginRequest.status===200){
-            
             return loginRequest.data;
-        } else {
+        }
+        else {
             console.log(loginRequest.message);
         }
     }

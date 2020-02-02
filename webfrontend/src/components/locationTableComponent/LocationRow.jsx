@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 
 import LocationAction from '../../actions/location.actions';
 import {Redirect} from "react-router";
+import LocationStore from '../../stores/location.store';
+
 
 export default class LocationRow extends Component {
 
@@ -14,10 +16,18 @@ export default class LocationRow extends Component {
     this.state={redirect: false}
   }
 
+  componentWillMount() {
+      LocationStore.addChangeListener("DELETE_LOCATION_SUCCESSFUL", this.deleteLocation);
+  }
+
   setActiveLocation(location){
     LocationAction.updateActiveLocation(location.mainLocation.location_id);
     // this.props.history.push('/')
     this.setState({redirect:true})
+  }
+
+  deleteLocation(location){
+    LocationAction.deleteLocation(location);
   }
 
 
@@ -51,7 +61,7 @@ export default class LocationRow extends Component {
 
                 <div className="cardBodyButtons">
                   <Button variant="secondary"> Edit Location </Button>
-                  <Button variant="danger" > Delete Location </Button>
+                  <Button variant="danger" onClick={()=>this.deleteLocation(this.props.location.mainLocation.location_id)}> Delete Location </Button>
                   <Button variant="link" onClick={()=>this.setActiveLocation(this.props.location)}>Show on map</Button>
                 </div>
               </Card.Body>

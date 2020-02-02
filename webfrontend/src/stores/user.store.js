@@ -27,7 +27,6 @@ class UserStore extends EventEmitter{
                 console.dir(action.value.toJSON().message);
                 localStorage.setItem("error", action.value.toString())
                 break;
-
         }
 
         this.emitChange(action.actionType);
@@ -42,5 +41,7 @@ class UserStore extends EventEmitter{
     removeChangeListener(eventName, callback) {
         this.removeListener(eventName, callback);
     }
+
+
 }
 export default new UserStore()

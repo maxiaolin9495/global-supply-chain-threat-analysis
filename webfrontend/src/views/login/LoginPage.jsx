@@ -85,6 +85,7 @@ export default class LoginPage extends Component {
       this.setState({redirect: true});
     }
   }
+  
   handleLogin(e){
     e.preventDefault();
     let userLoginData = this.state.userData;

@@ -9,7 +9,7 @@ export default class LocationService {
 
     static baseURL(){
         return `http://${config.ADMIN_BACKEND_URL}:${config.ADMIN_BACKEND_PORT}/mainlocations`
-        
+
     }
 
     static async getMainLocations(){
@@ -19,6 +19,7 @@ export default class LocationService {
         // }
     }
     static async deleteMainLocations(locationId){
+      console.log(locationId)
         let eventsRequest = await HttpService.delete(`${LocationService.baseURL()}/${locationId}`);
         if (eventsRequest.status===200){
             return eventsRequest.data;
@@ -37,4 +38,3 @@ export default class LocationService {
         }
     }
 }
-
