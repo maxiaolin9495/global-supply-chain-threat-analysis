@@ -6,6 +6,7 @@ import TextArea from "./TextArea";
 import Select from "./Select";
 import Button from "./Button";
 import './Select.css';
+import ToastComponent from "../ToastComponent";
 
 
 import LocationStore from "../../stores/location.store";
@@ -28,6 +29,7 @@ class FormContainer extends Component {
             },
             showError: false,
             error_msg: "",
+            showToast: false,
 
             locationTypeOptions: ["Production facility", "Exhibition hall", "Research facility"],
         };
@@ -39,10 +41,18 @@ class FormContainer extends Component {
         this.handleAddress = this.handleAddress.bind(this);
         this.handlePriority = this.handlePriority.bind(this);
         this.handleError = this.handleError.bind(this);
+        this.locationCreatedSuccess = this.locationCreatedSuccess.bind(this);
     }
 
     componentWillMount() {
         LocationStore.addChangeListener("POST_LOCATION_ERROR", this.handleError)
+        LocationStore.addChangeListener("POST_LOCATION_SUCCESSFUL", this.locationCreatedSuccess)
+    }
+
+    locationCreatedSuccess(){
+        this.setState({
+            showToast: true
+        })
     }
 
     /* This lifecycle hook gets executed when the component mounts */
@@ -145,6 +155,10 @@ class FormContainer extends Component {
 
 
     render() {
+      if(this.state.showToast){
+          return <ToastComponent show = {this.state.showToast}
+           body = "Location successfully created." />
+      }
         return (
             <form className="container-fluid" onSubmit={this.handleFormSubmit}>
 
