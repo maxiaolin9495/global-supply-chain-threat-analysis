@@ -1,5 +1,5 @@
 import {EventEmitter} from 'events';
-import configuraitonSendDispatcher from '../dispatchers/configurationSend.dispatcher';
+import configurationSendDispatcher from '../dispatchers/configurationSend.dispatcher';
 import ConfigService from '../services/config.service';
 
 let _store = {
@@ -23,13 +23,15 @@ class ConfigStore extends EventEmitter{
         switch(action.actionType) {
             case 'CONFIGURATION_CREATED_SUCCESS':
                 this.setStatus(200);
-
+                break;
             case 'CONFIGURATOR_CREATION_FAILED':
                 this.setStatus(400);
                 //localStorage.setItem("error", action.value.toString())
                 break;
             case 'FETCH_CONFIGS':
                 await this.fetchConfigs();
+                break;
+            case 'TRIGGER_EXTRACTOR':
                 break;
         }
 
