@@ -30,10 +30,10 @@ class LocationActions {
                 });
             })
             .catch((error)=>{
-                    console.dir(error.response.data);
+                    console.dir(error);
                     LocationDispatcher.dispatch({
                         actionType: 'POST_LOCATION_ERROR',
-                        value: error.response.data
+                        value: error
                     });
                 }
             );
