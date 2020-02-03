@@ -4,7 +4,8 @@ import LocationsDispatcher from '../dispatchers/locations.dispatcher';
 let _store = {
     locations: [],
     locations_error: {},
-    active_location: null
+    active_location: null,
+    deleted : false
 };
 
 class LocationStore extends EventEmitter {
@@ -43,6 +44,7 @@ class LocationStore extends EventEmitter {
                 _store.locations_error = action.value;
                 break;
             case 'DELETE_LOCATION_SUCCESSFUL':
+                _store.deleted = true
                 break;
         }
 
@@ -68,6 +70,10 @@ class LocationStore extends EventEmitter {
     }
     getLocations() {
         return _store.locations;
+    }
+
+    getDeleted(){
+      return _store.deleted;
     }
 
 

@@ -40,10 +40,10 @@ class LocationActions {
     }
     deleteLocation(data) {
         LocationService.deleteMainLocations(data)
-            .then((locations) => {
+            .then((status) => {
                 LocationDispatcher.dispatch({
                     actionType: 'DELETE_LOCATION_SUCCESSFUL',
-                    value: locations
+                    value: status
                 });
             })
             .catch((error)=>{

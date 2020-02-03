@@ -28,7 +28,6 @@ export default class LoginPage extends Component {
 
     this.handleUsernameLogin = this.handleUsernameLogin.bind(this);
     this.handlePasswordLogin = this.handlePasswordLogin.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.redirectLoginUser = this.redirectLoginUser.bind(this);
     this.showLoginError = this.showLoginError.bind(this);
@@ -42,10 +41,20 @@ export default class LoginPage extends Component {
   }
 
   showLoginError (){
-    let error = localStorage.getItem("error");
-    this.setState({
-      errorMessage : error
-    });
+    let error = UserStore.getStatus();
+    console.log(error)
+
+    if(error === '400') {
+      this.setState ({
+          errorMessage : "Wrong password"
+        })
+    }
+    if(error === '404') {
+      this.setState ({
+          errorMessage : "Wrong username"
+        })
+    }
+    console.log(this.state.errorMessage)
   }
 
   handleUsernameLogin = e => {
@@ -76,19 +85,14 @@ export default class LoginPage extends Component {
   );
   };
 
-  handleFormSubmit(e) {
+  handleLogin(e){
+    e.preventDefault();
+    let userLoginData = this.state.userData;
     let username = this.state.username;
     let password = this.state.password;
     if(!username && !password) {
       alert("Enter Username and Password");
-    } else {
-      this.setState({redirect: true});
     }
-  }
-  
-  handleLogin(e){
-    e.preventDefault();
-    let userLoginData = this.state.userData;
     UserLoginActions.loginCheck(userLoginData);
   }
 
@@ -108,14 +112,14 @@ export default class LoginPage extends Component {
               <Form className="login-form">
                 <Form.Label className="login-form-label">Log into Threddi</Form.Label>
                 <Form.Group controlId="formBasicEmail">
-                  <Form.Control className="email-input-line" type="email" placeholder="Enter email" value={this.state.username} onChange={this.handleUsernameLogin} />
+                  <Form.Control required className="email-input-line" type="email" placeholder="Enter email" value={this.state.username} onChange={this.handleUsernameLogin} />
                   <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                   </Form.Text>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
-                  <Form.Control className="password-input-line" type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordLogin}/>
+                  <Form.Control required className="password-input-line" type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordLogin}/>
                 </Form.Group>
 
                   <Button className="login-button" variant="outline-light" type="submit" onClick={this.handleLogin}>

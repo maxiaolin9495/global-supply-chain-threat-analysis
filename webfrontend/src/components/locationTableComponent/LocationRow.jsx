@@ -13,11 +13,24 @@ export default class LocationRow extends Component {
 
   constructor(props) {
     super(props);
-    this.state={redirect: false}
+    this.state={
+      redirect: false,
+      deleted:false
+    }
+
+    this.deleteLocationSuccessful = this.deleteLocationSuccessful.bind(this)
+    this.setActiveLocation = this.setActiveLocation.bind(this)
+    this.deleteLocation = this.deleteLocation.bind(this)
   }
 
   componentWillMount() {
-      LocationStore.addChangeListener("DELETE_LOCATION_SUCCESSFUL", this.deleteLocation);
+      LocationStore.addChangeListener("DELETE_LOCATION_SUCCESSFUL", this.deleteLocationSuccessful);
+  }
+
+  deleteLocationSuccessful(){
+    this.setState({
+      deleted:true
+    })
   }
 
   setActiveLocation(location){
@@ -35,7 +48,7 @@ export default class LocationRow extends Component {
     let location = this.props.location.mainLocation;
     return (
       <Accordion>
-        {this.state.redirect? <Redirect to={{path:"/", state: {location_id: this.props.location.mainLocation.location_id}}} />:""}
+        {this.state.redirected? <Redirect to={{path:"/", state: {location_id: this.props.location.mainLocation.location_id}}} />:""}
         <Card>
           <Card.Header>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">

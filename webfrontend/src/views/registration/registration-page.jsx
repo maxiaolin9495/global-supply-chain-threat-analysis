@@ -30,7 +30,6 @@ export default class Register extends Component {
     this.handleRepeatedPasswordRegister = this.handleRepeatedPasswordRegister.bind(
       this
     );
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleRegistration = this.handleRegistration.bind(this);
     this.redirectRegisterUser = this.redirectRegisterUser.bind(this);
     UserRegistrationStore.addChangeListener(
@@ -85,20 +84,6 @@ export default class Register extends Component {
       () => console.log(this.state.newLocation)
     );
   };
-
-
-  handleFormSubmit(e) {
-    let username = this.state.username;
-    let password = this.state.password;
-    let repeatedPassword = this.state.repeatedPassword;
-    if (!username && !password) {
-      alert("Enter Username and Password");
-    } else if (password !== repeatedPassword) {
-      alert("Passwords do not match.");
-    } else {
-      this.setState({ redirect: true });
-    }
-  }
 
   handleRegistration(e) {
     let username = this.state.username;

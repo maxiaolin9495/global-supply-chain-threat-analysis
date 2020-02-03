@@ -133,6 +133,9 @@ class FormContainer extends Component {
         e.preventDefault();
         let userData = this.state.newLocation;
         console.log(userData);
+        if(!userData.location_id) {
+          alert("Please enter location information.");
+        }
         if (userData.location_id) {
             userData['name'] = userData.location_id.replace(" ", "_");
             userData['location_id'] = userData.location_id.replace(" ", "_");

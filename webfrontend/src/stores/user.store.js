@@ -2,7 +2,7 @@ import {EventEmitter} from 'events';
 import userLoginDispatcher from '../dispatchers/userLogin.dispatcher';
 
 let _store = {
-
+  status: null
 };
 
 class UserStore extends EventEmitter{
@@ -24,8 +24,10 @@ class UserStore extends EventEmitter{
                 window.localStorage.setItem("token", action.value);
                 break;
             case 'LOGIN_ERROR':
-                console.dir(action.value.toJSON().message);
-                localStorage.setItem("error", action.value.toString())
+                //console.dir(action.value.toJSON().message);
+                //localStorage.setItem("error", action.value.toString())
+                _store.status = action.value;
+                console.log(action.value);
                 break;
         }
 
@@ -40,6 +42,10 @@ class UserStore extends EventEmitter{
 
     removeChangeListener(eventName, callback) {
         this.removeListener(eventName, callback);
+    }
+
+    getStatus(){
+      return _store.status
     }
 
 

@@ -4,12 +4,10 @@ import HttpService from "./http.service";
 
 export default class LocationService {
     constructor() {
-
     }
 
     static baseURL(){
         return `http://${config.ADMIN_BACKEND_URL}:${config.ADMIN_BACKEND_PORT}/mainlocations`
-
     }
 
     static async getMainLocations(){
@@ -18,13 +16,18 @@ export default class LocationService {
         //     return mainLocationRequest.data;
         // }
     }
+
     static async deleteMainLocations(locationId){
-      console.log(locationId)
-        let eventsRequest = await HttpService.delete(`${LocationService.baseURL()}/${locationId}`);
-        if (eventsRequest.status===200){
-            return eventsRequest.data;
-        }
+      console.log(locationId);
+      //console.log(`${LocationService.baseURL()}/${locationId}`)
+        let eventsRequest = await HttpService.remove(`${LocationService.baseURL()}/${locationId}`);
+        //let eventsRequest = await HttpService.remove(LocationService.baseURL(), locationId);
+      
+        if (eventsRequest.result==="deleted"){
+            return 200;
+          }
     }
+
     static async putMainLocations(locationId, updatedLocation){
         let eventsRequest =  await axios.put(`${LocationService.baseURL()}/${locationId}`,updatedLocation);
         if (eventsRequest.status===200){

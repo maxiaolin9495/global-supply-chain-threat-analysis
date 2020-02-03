@@ -12,12 +12,17 @@ export default class AuthService {
     }
 
     static async login(userLoginData){
-        let loginRequest = await axios.post(AuthService.baseURL() + "/login", userLoginData);
+        let loginRequest = await HttpService.post(AuthService.baseURL() + "/login", userLoginData);
         if (loginRequest.status===200){
             return loginRequest.data;
         }
         else {
-            console.log(loginRequest.message);
+            if (loginRequest.status === 400) {
+              throw 400
+            }
+            if (loginRequest.status === 404) {
+              throw 404
+            }
         }
     }
 }
