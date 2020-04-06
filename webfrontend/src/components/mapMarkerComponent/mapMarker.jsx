@@ -41,11 +41,11 @@ export default class MapMarker extends Component {
                                 <MetricBatchComponent size="big"
                                                       value={this.props.event._source.importance}
                                                       field="Importance"/>
-
+                                {this.props.event._source.location_info?
                                 <MetricBatchComponent size="big"
                                                       value={this.props.event._source.location_info.distance ? parseInt(this.props.event._source.location_info.distance) + " km" : "-"}
                                                       field={this.props.event._source.location_info.distance ? "To " + this.props.event._source.location_info.name.replace("_", " ") : "Distance To Location"}
-                                />
+                                />:""}
 
                             </div>
                             <hr className="horizontal-line"/>

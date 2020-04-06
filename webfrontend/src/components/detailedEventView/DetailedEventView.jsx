@@ -29,11 +29,14 @@ export default class DetailedEventView extends Component {
                 </div>
                 <div>
                     <div className={"ev-batches"}>
-                        <MetricBatchComponent size="big" value={this.props.activeEvent.importance}
-                                              field="Importance"/>
+                        <MetricBatchComponent size="big" value={this.props.activeEvent.importance}/>
+                        {this.props.activeEvent.location_info?
                         <MetricBatchComponent size="big"
                                               value={this.props.activeEvent.location_info.distance?parseInt(this.props.activeEvent.location_info.distance) + " km":"-"}
-                                              field={this.props.activeEvent.location_info.distance? "To " + this.props.activeEvent.location_info.name.replace("_"," "):"Distance To Location"} />
+                                              field={this.props.activeEvent.location_info.distance? "To " + this.props.activeEvent.location_info.name.replace("_"," "):"Distance To Location"}
+                        />
+                                              :""
+                        }
                     </div>
                     <div className={"ev-batches"}>
                         <MetricBatchComponent size="medium"

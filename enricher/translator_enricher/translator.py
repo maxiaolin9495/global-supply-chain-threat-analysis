@@ -32,8 +32,8 @@ class TranslatorEnricher(Enricher):
         for _f in _source_fields:
             try:
                 translated_text, src = _translate(event.get(_f))
-                event[_f] = "{} (translated from )".format(translated_text, src)
-            except:
+                event[_f] = "{} (translated from {})".format(translated_text, src)
+            except Exception as e:
                 logging.error("Translation could not be done")
                 continue
 

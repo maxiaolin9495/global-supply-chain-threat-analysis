@@ -29,6 +29,8 @@ export default class EventSearcher {
     }
 
     static basicFiltering(searchString, event) {
+        if (!event['hidden_information']) return false;
+
         return event['hidden_information'].includes(searchString) ||
             event['description'].toLowerCase().includes(searchString) ||
             event['id'].includes(searchString)

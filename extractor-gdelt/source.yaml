@@ -6,8 +6,10 @@ description: Datasource which fetches data from the GDELT Database
 # Shows which NLP Phases have to be done
 processing:
   # Not allowed to have a point in the name
+  - enricher_noun_fetcher
   - enricher_title_to_description
   - enricher_translator
+  - distance
   - datastore
 
 # Properties which will be copied to the configuration database and then managed from there
@@ -28,17 +30,17 @@ default_properties:
   general_filter_options:
     - field: 'GoldsteinScale'
       method: 'GreaterThanAbs'
-      threshold: 3
+      threshold: 8
 
   # Minimum of impact which an event need to be added. On the absolute Goldstein-Scale
   filter_options:
     - field: 'GoldsteinScale'
       method: 'GreaterThanAbs'
-      threshold: 3
+      threshold: 1
 
     - field: 'NumArticles'
       method: 'GreaterThan'
-      threshold: 10
+      threshold: 1
 
     - field: 'NumSources'
       method: 'GreaterThan'
