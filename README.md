@@ -1,5 +1,20 @@
 # global-supply-chain-threat-analysis
 
+### Installation
+Using Terminal
+
+`git clone https://gitlab.lrz.de/ge72vob/global-supply-chain-threat-analysis.git`
+
+### Run the Example
+
+start the whole project with:
+
+`docker-compose up`
+
+the images will be built up automatically. 
+
+### Backend Swagger-ui
+localhost:3000/api-docs
 
 #### Git Workflow
 Please use feature branches only to commit your code. 

@@ -1,0 +1,446 @@
+openapi: 3.0.1
+info:
+  version: '1.0.0'
+  title: 'Supply Chain Threat Analysis Dashboard API'
+  description: 'API providing basic functionalities of the Threddi (preliminary name) BMW Supply Chain Threat Analysis Dashboard'
+  termsOfService: https://foo.com/terms-of-use
+  contact:
+    name: Bernhard
+    url: foo.com
+    email: bernhard@foo.com
+  license:
+    name: BMW License
+    url: http://foo.com/dashboard
+tags:
+- name: location
+  description: Access to location objects
+- name: configuration
+  description: Access to configuration objects
+
+
+paths:
+  /administrators/register:
+    summary: For user registration
+    description: Each administrator is identified by an unique username
+    post:
+      tags:
+        - administrator
+      requestBody:
+        description: administrator object that needs to be added to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/administrators'
+        required: true
+      responses:
+        200:
+          description: New administrator created
+        400:
+          description: Invalid request
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+
+
+  /administrators/login:
+    summary: For user login.
+    description: Only valid administrators can use this backend service
+    post:
+      tags:
+      - administrator
+      requestBody:
+        description: administrator object that needs to be added to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/administrators'
+        required: true
+      responses:
+        200:
+          description: token created
+        400:
+          description: Invalid request
+          content: {}
+        404:
+          description: No Administrator with the username has been found, invalid request.
+        500:
+          description: internal error happened by elasticsearch database
+  /mainlocations:
+    summary: Main location object type
+    description: This resource represents an individual location object in the system. Each location is identified by an unique location_id.
+    get:
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationType'
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      tags:
+      - location
+      summary: Return array with all location information.
+      description: Obtain information about all location objects stored in the database.
+      operationId: getLocations
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/mainlocations'
+        400:
+          description: Invalid request
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+    post:
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      tags:
+      - location
+      summary: Add a new location to the database
+      operationId: postLocations
+      requestBody:
+        description: Location object that needs to be added to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mainlocations'
+        required: true
+      responses:
+        201:
+          description: New resource created
+        405:
+          description: Invalid input
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+
+  /mainlocations/{location_id}:
+    put:
+      tags:
+      - location
+      summary: Update a existing location by ID
+      description: This can only be done by the logged in user.
+      operationId: updateLocationByID
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      - name: location_id
+        in: path
+        description: Location_id that need to be updated
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Location_id of the location that need to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mainlocations'
+        required: true
+      responses:
+        200:
+          description: Successful operation
+        201:
+          description: New resource created
+        400:
+          description: Invalid request
+          content: {}
+        404:
+          description: ID not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+    delete:
+      tags:
+      - location
+      summary: Delete location by ID
+      operationId: deleteLocationByID
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      - name: location_id
+        in: path
+        description: Location_id of the location that need to be updated
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+        400:
+          description: Invalid request
+          content: {}
+        404:
+          description: ID not found
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+
+  /configurations:
+    summary: Configuration object type
+    description: This resource represents an individual configuration in the system. Each configuration is identified by an unique configuration_id.
+    get:
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationType'
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      tags:
+      - configuration
+      summary: Return array with configuration information.
+      description: Obtain information about ongoing configurtations.
+      operationId: getEvent
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/configurations'
+        400:
+          description: Invalid request
+          content: {}
+        401:
+          description: Unauthorized
+        500:
+          description: internal error happened by elasticsearch database
+    post:
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      tags:
+      - configuration
+      summary: Add a new configuration to the database
+      operationId: postConfigurations
+      requestBody:
+        description: Configuration object that needs to be added to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/configurations'
+        required: true
+      responses:
+        201:
+          description: New resource created
+        401:
+          description: Unauthorized
+        405:
+          description: Invalid input
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+  /configurations/{configurationId}:
+    summary: Tbd
+    description: Tbd
+    get:
+      tags:
+      - configuration
+      summary: Return configuration by configuration_id.
+      description: Obtain information about a specific event by stating the event_id.
+      operationId: getEventById
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationType'
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      - name: configurationId
+        in: path
+        description: ID of configuration that needs to be fetched
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/configurations'
+        400:
+          description: Invalid request
+          content: {}
+        401:
+          description: Unauthorized
+        404:
+          description: ID not found
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+    delete:
+      tags:
+      - configuration
+      summary: Delete configuration by ID
+      operationId: deleteConfigurationByID
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      - name: configurationId
+        in: path
+        description: ID of configuration that needs to be deleted
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid request
+          content: {}
+        401:
+          description: Unauthorized
+        404:
+          description: ID not found
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+    post:
+      tags:
+      - configuration
+      summary: Add a new configuration to the database
+      operationId: postConfigurationns
+      parameters:
+      - $ref: '#/components/securitySchemes/authenticationHeader'
+      - name: configurationId
+        in: path
+        description: ID of configuration that needs to be deleted
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: configuration object that needs to be added to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/configurations'
+        required: true
+      responses:
+        201:
+          description: New resource created
+        401:
+          description: Unauthorized
+        405:
+          description: Invalid input
+          content: {}
+        500:
+          description: internal error happened by elasticsearch database
+components:
+  schemas:
+    administrators:
+      type: object
+      $ref: '#/components/schemas/administrators'
+      properties:
+        username:
+          type: string
+        password: # length must greater than 8
+          type: string
+    mainlocations:
+      type: object
+      $ref: '#/components/schemas/mainlocations'
+      properties:
+        location_id:
+          type: string
+        address:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        location_type: #plant, storage, person
+          type: string
+        image_url:
+          type: string
+        priority:
+          type: integer
+          format: int32
+          maximum: 10
+          minimum: 0
+        additional_information:
+          type: array
+          items:
+            type: string
+    configurations:
+      type: object
+      $ref: '#/components/schemas/configurations'
+      properties:
+        name:
+          type: string
+        configuration_id:
+          type: string
+        description:
+          type: string
+        processing:
+          type: array
+          items:
+            type: string
+        general_filter_options:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              method:
+                type: string
+              threshhold:
+                type: integer
+        default_properties:
+          type: object
+          properties:
+            polling:
+              type: integer
+            field_mappings:
+              type: object
+              properties:
+                description:
+                  type: string
+        filter_options:
+          type: array
+          items:
+            type: objectfield_mappings
+            properties:
+              field:
+                type: string
+              method:
+                type: string
+              threshhold:
+                type: integer
+        source_dependent_information:
+          type: array
+          items:
+            type: object
+            properties:
+              displayname:
+                type: string
+              id:
+                type: string
+              description:
+                type: string
+        processing_services:
+          type: array
+          items:
+            type: object
+            properties:
+              title-enricher:
+                type: object
+                properties:
+                  input_field:
+                    type: string
+              translater-service:
+                type: object
+                properties:
+                  fields:
+                    type: array
+                    items:
+                      type: string
+                  output_language:
+                    type: string
+  securitySchemes:
+    authenticationHeader:
+      type: apiKey
+      $ref: '#/components/securitySchemes/authenticationHeader'
+      in: header
+      name: Authentication
+      description: Enter your authentication identit
+    authenticationType:
+      type: apiKey
+      $ref: '#/components/securitySchemes/authenticationType'
+      in: header
+      name: authentication_type
+      description: Enter your authentication type (for example: service)

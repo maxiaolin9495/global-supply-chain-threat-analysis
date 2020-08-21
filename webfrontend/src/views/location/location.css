@@ -1,0 +1,35 @@
+.page-content{
+  display: flex;
+  flex-direction: row;
+  padding: 2.5%;
+  height: 100%;
+}
+
+.location-table-wrapper {
+  display: flex;
+  width: 60%;
+}
+
+.picture-container-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 2.5%;
+}
+
+.picture{
+  display: flex;
+}
+
+.toast{
+  position: absolute;
+  bottom: 2em;
+  right : 2em;
+  z-index: 100;
+}
+
+.page-container-button-bar-bottom{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
